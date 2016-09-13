@@ -17,9 +17,18 @@ function getBasicComparator(reverse = false) {
 	};
 }
 
-function sort(collection, reverse = false) {
+
+function basicSort(collection, reverse = false) {
 	const comparator = getBasicComparator(reverse);
 	return collection.sort(comparator);
 }
 
-export default sort;
+function sortStrategy(...args) {
+	const [collection, options] = args;
+	if (typeof options === 'boolean' || typeof options === 'undefined') {
+		const reverse = options;
+		return basicSort(collection, reverse);
+	}	
+}
+
+export default sortStrategy;
