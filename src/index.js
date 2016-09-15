@@ -1,35 +1,25 @@
-function getBasicComparator(reverse) {
-  const direction = reverse
-    ? -1
-    : 1;
-  return (a, b) => {
-    const aVal = a;
-    const bVal = b;
-    if (aVal < bVal) {
+function compareValues(aVal, bVal, direction) {
+  if (aVal < bVal) {
       return -1 * direction;
     } else if (bVal < aVal) {
       return 1 * direction;
     } else {
       return 0;
     }
-  };
+}
+
+function getBasicComparator(reverse) {
+  const direction = reverse
+    ? -1
+    : 1;
+  return (a, b) => compareValues(a, b, direction);
 }
 
 function getFieldComparator(field, reverse) {
   const direction = reverse
     ? -1
     : 1;
-  return (a, b) => {
-    const aVal = a[field];
-    const bVal = b[field];
-    if (aVal < bVal) {
-      return -1 * direction;
-    } else if (bVal < aVal) {
-      return 1 * direction;
-    } else {
-      return 0;
-    }
-  };
+    return (a, b) => compareValues(a[field], b[field], direction);
 }
 
 function basicSort(collection, reverse) {
