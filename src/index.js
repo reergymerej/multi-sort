@@ -17,9 +17,32 @@ function getBasicComparator(reverse = false) {
   };
 }
 
+function getFieldComparator(field, reverse = false) {
+  const direction = reverse
+    ? -1
+    : 1;
+
+  return (a, b) => {
+    const aVal = a[field];
+    const bVal = b[field];
+
+    if (aVal < bVal) {
+      return -1 * direction;
+    } else if (bVal < aVal) {
+      return 1 * direction;
+    } else {
+      return 0;
+    }
+  };
+}
 
 function basicSort(collection, reverse = false) {
   const comparator = getBasicComparator(reverse);
+  return collection.sort(comparator);
+}
+
+function sortByField(collection, field, reverse) {
+  const comparator = getFieldComparator(field, reverse);
   return collection.sort(comparator);
 }
 
@@ -34,7 +57,8 @@ function sortStrategy(...args) {
       return basicSort(collection, reverse);
       break;
     case 'string':
-      return [1,2,3];
+      const field = options;
+      return sortByField(collection, field, reverse);
     default:
   }
 }
