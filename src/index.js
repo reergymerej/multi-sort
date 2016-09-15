@@ -46,20 +46,32 @@ function sortByField(collection, field, reverse) {
   return collection.sort(comparator);
 }
 
-function sortStrategy(...args) {
-  const [collection, options] = args;
-  const type = typeof options;
+const STRATEGY = {
+  BASIC: 'BASIC',
+};
 
-  switch (type) {
-    case 'undefined':
-    case 'boolean':
-      const reverse = options;
-      return basicSort(collection, reverse);
-      break;
-    case 'string':
-      const field = options;
-      return sortByField(collection, field, reverse);
-    default:
+function getStrategy(...args) {
+  const [a, b, c] = args;
+
+  if (args.length === 1) {
+    return STRATEGY.BASIC;
+  } else if (args.length === 2) {
+    if (typeof b === 'boolean') {
+      return STRATEGY.BASIC;
+    } else if (typeof b === 'string') {
+      return STRATEGY.BASIC_FIELD;
+    }
+  }
+}
+
+function sortStrategy(...args) {
+  const strategy = getStrategy(...args);
+
+  switch (strategy) {
+    case STRATEGY.BASIC:
+      return basicSort(...args);
+    case STRATEGY.BASIC_FIELD:
+      return sortByField(...args);
   }
 }
 

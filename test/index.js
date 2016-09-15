@@ -34,14 +34,14 @@ describe('sorting objects by a single property', () => {
     expect(actual).to.eql(expected);
   });
 
-  xit('should sort descending', () => {
+  it('should sort descending', () => {
     const input = [
       { name: 'a' },
       { name: 'b' },
       { name: 'c' },
     ];
     const field = 'name';
-    const actual = app(input, field);
+    const actual = app(input, field, true);
     const expected = [
       { name: 'c' },
       { name: 'b' },
