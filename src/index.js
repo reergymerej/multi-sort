@@ -1,12 +1,10 @@
-function getBasicComparator(reverse = false) {
+function getBasicComparator(reverse) {
   const direction = reverse
     ? -1
     : 1;
-
   return (a, b) => {
     const aVal = a;
     const bVal = b;
-
     if (aVal < bVal) {
       return -1 * direction;
     } else if (bVal < aVal) {
@@ -17,15 +15,13 @@ function getBasicComparator(reverse = false) {
   };
 }
 
-function getFieldComparator(field, reverse = false) {
+function getFieldComparator(field, reverse) {
   const direction = reverse
     ? -1
     : 1;
-
   return (a, b) => {
     const aVal = a[field];
     const bVal = b[field];
-
     if (aVal < bVal) {
       return -1 * direction;
     } else if (bVal < aVal) {
@@ -36,7 +32,7 @@ function getFieldComparator(field, reverse = false) {
   };
 }
 
-function basicSort(collection, reverse = false) {
+function basicSort(collection, reverse) {
   const comparator = getBasicComparator(reverse);
   return collection.sort(comparator);
 }
@@ -47,32 +43,27 @@ function sortByField(collection, field, reverse) {
 }
 
 const STRATEGY = {
-  BASIC: 'BASIC',
+  BASIC: basicSort,
+  SINGLE_FIELD: sortByField,  
 };
 
 function getStrategy(...args) {
-  const [a, b, c] = args;
-
-  if (args.length === 1) {
-    return STRATEGY.BASIC;
-  } else if (args.length === 2) {
-    if (typeof b === 'boolean') {
+  switch (args.length) {
+    case 1:
       return STRATEGY.BASIC;
-    } else if (typeof b === 'string') {
-      return STRATEGY.BASIC_FIELD;
+    case 2: {
+      const [, b] = args;
+      return (typeof b === 'boolean')
+        ? STRATEGY.BASIC
+        : STRATEGY.SINGLE_FIELD; 
     }
+    case 3:
+      return STRATEGY.SINGLE_FIELD;
   }
 }
 
 function sortStrategy(...args) {
-  const strategy = getStrategy(...args);
-
-  switch (strategy) {
-    case STRATEGY.BASIC:
-      return basicSort(...args);
-    case STRATEGY.BASIC_FIELD:
-      return sortByField(...args);
-  }
+  return getStrategy(...args)(...args);
 }
 
 export default sortStrategy;
