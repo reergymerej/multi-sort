@@ -44,7 +44,7 @@ function sortByField(collection, field, reverse) {
 
 const STRATEGY = {
   BASIC: basicSort,
-  SINGLE_FIELD: sortByField,  
+  SINGLE_FIELD: sortByField,
 };
 
 function getStrategy(...args) {
@@ -55,7 +55,7 @@ function getStrategy(...args) {
       const [, b] = args;
       return (typeof b === 'boolean')
         ? STRATEGY.BASIC
-        : STRATEGY.SINGLE_FIELD; 
+        : STRATEGY.SINGLE_FIELD;
     }
     case 3:
       return STRATEGY.SINGLE_FIELD;
