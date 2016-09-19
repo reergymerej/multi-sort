@@ -50,3 +50,28 @@ describe('sorting objects by a single property', () => {
     expect(actual).to.eql(expected);
   });
 });
+
+describe.only('sorting objects by multiple properties', () => {
+  it('should sort ascending', () => {
+    const input = [
+      { name: 'foo', number: 2 },
+      { name: 'foo', number: 1 },
+      { name: 'foo', number: 0 },
+    ];
+    const options = [
+      {
+        field: 'number',
+      },
+      {
+        field: 'name',
+      },
+    ];
+    const actual = app(input, options);
+    const expected = [
+      { name: 'foo', number: 0 },
+      { name: 'foo', number: 1 },
+      { name: 'foo', number: 2 },
+    ];
+    expect(actual).to.eql(expected);
+  });
+});

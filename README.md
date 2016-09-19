@@ -3,6 +3,12 @@
 Yeah, this isn't really about JS.  It's about Vim.  :O
 
 
+basic sort
+```js
+app.sort();
+```
+
+
 
 
 
